@@ -9,6 +9,9 @@ on:
       image_tag:
         required: true
         type: string
+      build_args:
+        required: false
+        type: string
     secrets:
       DOCKER_HUB_USERNAME:
         required: true
@@ -39,3 +42,4 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ inputs.image_name }}:cache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ inputs.image_name }}:cache,mode=max
+          build-args: ${{ inputs.build_args != '' && fromJSON(inputs.build_args) || null }}

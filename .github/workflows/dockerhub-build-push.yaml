@@ -11,7 +11,7 @@ on:
         type: string
       build_args:
         required: false
-        type: object
+        type: string
     secrets:
       DOCKER_HUB_USERNAME:
         required: true
@@ -42,4 +42,4 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ inputs.image_name }}:cache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ inputs.image_name }}:cache,mode=max
-          build-args: ${{ inputs.build_args }}
+          build-args: ${{ inputs.build_args != '' && inputs.build_args || null }}
